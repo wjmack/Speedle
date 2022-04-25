@@ -4,4 +4,5 @@ Speedle is a game inspired by Wordle, where the goal is to get as many puzzles s
 The user will get points based on how many puzzles they solve, and how fast they solve them
 
 **How to Play**  
+Start typing on the keyboard to have the display appear (will be fixed)  
 Play the game on <a href="https://speedle.wjmackinnon.repl.co/">Repl</a>, where it is being hosted
