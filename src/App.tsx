@@ -55,7 +55,7 @@ export default function App() {
 
     function loadWords() {
         var xmlhttp = new XMLHttpRequest()
-        xmlhttp.open("GET", "https://replit.com/@wjmackinnon/Schmordtle#src/util/words.txt", false)
+        xmlhttp.open("GET", "https://raw.githubusercontent.com/wjmack/Speedle/main/src/util/words.txt", false)
         xmlhttp.send()
         if (xmlhttp.status==200) {
             return xmlhttp.responseText.split("\n")
@@ -82,7 +82,7 @@ export default function App() {
     
     return (
         <main>
-            <div className = "header">Schmordtle</div>
+            <div className = "header">Speedle</div>
             <table className = "display">
                 {boardDisplay}
             </table>
