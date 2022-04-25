@@ -5,5 +5,5 @@ The user will get points based on how many puzzles they solve, and how fast they
 
 **How to Play**  
 Start typing on the keyboard to have the display appear (will be fixed)  
-Best experienced on Chromium browsers at the moment  
+Best experienced on Chromium browsers at the moment (mobile works, but has a few issues)  
 Play the game on <a href="https://speedle.wjmackinnon.repl.co/">Repl</a>, where it is being hosted
