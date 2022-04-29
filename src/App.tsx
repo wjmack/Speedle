@@ -2,7 +2,6 @@ import * as React from 'react'
 import './App.css'
 
 export default function App() {
-
     const [wotd, setWotd] = React.useState(loadWords()[Math.floor(Math.random()*loadWords().length)].toUpperCase())
     const [row, setRow] = React.useState(0)
     const [col, setCol] = React.useState(0)
@@ -16,41 +15,25 @@ export default function App() {
         ["","","","",""],
     ])
     
-    const keyType = (char : any) => {
-        
-        if(char == 1) {
-            check()
-        } else if(char == -1) {
-            let newBoard = board
-            newBoard[row][col] = ""
-            setBoard(newBoard)
-            if(col > 0) setCol(col - 1)
-        } else {
-            let newBoard = board
-            newBoard[row][col] = char
-            setBoard(newBoard)
-            if(col < 4) setCol(col + 1)
-        }
+    function keyType(char : any) {
+        let newBoard = board
+        newBoard[row][col] = char
+        replaceBoard(newBoard)
+        if(col < 4) setCol(col + 1)
 
-        setBoardDisplay(board.map((row) => {
-            return (
-                <tr id = "displayRow">
-                    {row.map((column) => {
-                        return (
-                            <td id = "displayCell" style={{
-                                backgroundColor: column.includes("[") ? "#2eb267" : 
-                                                 column.includes("]") ? "#e6e27a" :
-                                                 column.includes("!") ? "#454545" :
-                                                "#888686"
-                            }}>{column.replace("[","").replace("]","").replace("!","")}</td>
-                        )
-                    })}
-                </tr>
-            )
-        }))
+        replaceBoard(newBoard)
         
         console.log(col,row,board)
         console.log(wotd)
+    }
+
+    function backspace() {
+        if(col > 0) {
+            setCol(col - 1)
+        }
+        let newBoard = board
+        newBoard[row][col] = ""
+        replaceBoard(newBoard) 
     }
 
     function loadWords() {
@@ -59,8 +42,37 @@ export default function App() {
         xmlhttp.send()
         if (xmlhttp.status==200) {
             return xmlhttp.responseText.split("\n")
+        } else {
+            return(["error"])
         }
-        return null
+    }
+
+    function replaceBoard(newBoard : any) {
+        setBoard(newBoard)
+        updateBoard()
+    }
+
+    function updateBoard() {
+        setBoardDisplay(board.map((row) => {
+            return (
+                <tr id = "displayRow">
+                    {row.map((column) => {
+                        return (
+                            <td 
+                                id = "displayCell" 
+                                style={{
+                                backgroundColor: column.includes("[") ? "#2eb267" : 
+                                                 column.includes("]") ? "#e6e27a" :
+                                                 column.includes("!") ? "#454545" :
+                                                "#888686"
+                                }}>
+                                {column.replace("[","").replace("]","").replace("!","")}
+                            </td>
+                        )
+                    })}
+                </tr>
+            )
+        }))
     }
 
     function check() {
@@ -73,13 +85,13 @@ export default function App() {
             }
             else if(wotd.includes(board[row][i]))
                 board[row][i] = board[row][i].concat("]")
-            else
+            else 
                 board[row][i] = board[row][i].concat("!")
         }
         setRow(row + 1)
         setCol(0)
+        updateBoard() 
     }
-    
     return (
         <main>
             <div className = "header">Speedle</div>
@@ -115,7 +127,7 @@ export default function App() {
             </table>
             <table className = "keyboardLow">
                 <tr id = "keyboardRow">
-                    <td onClick = {() => keyType(1)} id = "key">GO</td>
+                    <td onClick = {() => check()}      id = "key">GO</td>
                     <td onClick = {() => keyType("Z")} id = "key">Z</td>
                     <td onClick = {() => keyType("X")} id = "key">X</td>
                     <td onClick = {() => keyType("C")} id = "key">C</td>
@@ -123,7 +135,7 @@ export default function App() {
                     <td onClick = {() => keyType("B")} id = "key">B</td>
                     <td onClick = {() => keyType("N")} id = "key">N</td>
                     <td onClick = {() => keyType("M")} id = "key">M</td>
-                    <td onClick = {() => keyType(-1)} id = "key">BCK</td>
+                    <td onClick = {() => backspace()}  id = "key">BCK</td>
                 </tr>
             </table>
         </main>
